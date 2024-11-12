@@ -1,0 +1,44 @@
+# V 0.1
+# Создание системы верификации для входа в менеджер паролей
+
+import os
+from verification import check_input
+import register as commands
+import genpass as passg
+
+entry = commands.Credentials()
+
+user_login = input("Username: ")
+user_password = input("Password: ")
+
+# эта функция очищяет экран при вызове
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+if check_input(user_login, user_password):
+    clear_screen()
+    print("Type 'register' to register new user or 'genpass' to generate random password.\nTo exit the program type !end\nTo get help type 'help'")
+    while True:
+        command = input("$")
+        clear_screen()
+        # add new user
+        if command == "register":
+            entry.users_input()
+            entry.add_user()
+        # read user
+        elif command == "list":
+            entry.read_user()
+        # password generator
+        elif command == "genpass":
+            passg.inp()
+        # help print
+        elif command == "help":
+            print("Type 'register' to register new user or 'genpass' to generate random password.\nTo exit the program type !end")
+        # close program
+        elif command == "!end":
+            break
+        else:
+            print("!!!No such command!!!")
+
+else:
+    print("Wrong login or password")
