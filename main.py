@@ -2,7 +2,6 @@
 # Создание системы верификации для входа в менеджер паролей
 
 import os
-from verification import UserAuth
 import register as commands
 import genpass as passg
 from verification import UserAuth
