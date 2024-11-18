@@ -8,6 +8,7 @@ import genpass as passg
 
 entry = commands.Credentials()
 
+
 user_login = input("Username: ")
 user_password = input("Password: ")
 
@@ -17,7 +18,7 @@ def clear_screen():
 
 if check_input(user_login, user_password):
     clear_screen()
-    print("Type 'register' to register new user or 'genpass' to generate random password.\nTo exit the program type !end\nTo get help type 'help'")
+    print("To get help type 'help'")
     while True:
         command = input("$")
         clear_screen()
@@ -33,7 +34,10 @@ if check_input(user_login, user_password):
             passg.inp()
         # help print
         elif command == "help":
-            print("Type 'register' to register new user or 'genpass' to generate random password.\nTo exit the program type !end")
+            print("Type 'register' to register a new user\n"
+                  "Type 'list' to display the user\n"
+                  "Type 'genpass' to generate random password.\n"
+                  "To exit the program type !end")
         # close program
         elif command == "!end":
             break

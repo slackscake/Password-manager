@@ -1,14 +1,9 @@
 import json
 import os
-from base64 import encode
-
-from rich import inspect
 from cryptography.fernet import Fernet
 
-from rich.tree import Tree
-from rich import print
-
-
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
 # key = Fernet.generate_key()
 # cipher = Fernet(key)
 #
@@ -47,35 +42,27 @@ class Credentials:
         print("User saved")
 
     def read_user(self):
-        with open("DateBase.json", "r")as file:
-            data = json.load(file)
-        sel_user = input("Type name of website to show user info:")
-        if sel_user in data:
-            decrypted_password = cipher.decrypt(data[sel_user]["password"])
-            decrypted_password = decrypted_password.decode()
-            data[sel_user]["password"] = decrypted_password
-            tree = Tree("user")
-            tree.add(sel_user)
-            tree.add(data[sel_user]["user"])
-            tree.add(data[sel_user]["password"])
-            print(tree)
-        elif sel_user == "all":
-            tree = Tree("Пользователи")
-            for user, info in data.items():
-                user_branch = tree.add(user)  # Ветка для каждого пользователя
-                for key, value in info.items():
-                    user_branch.add(f"{key.capitalize()}: {value}")  # Добавляем информацию о пользователе
-            print(tree)
-        else:
-            print("This user does not exist\nTry again")
-    # def read_all_users(self):
+        try:
+            with open("DateBase.json", "r")as file:
+                data = json.load(file)
+            sel_web = input("For display all registered websites type 'all'\nType name of website to show user info:")
+            if sel_web in data:
+                clear_screen()
+                decrypted_password = cipher.decrypt(data[sel_web]["password"])
+                decrypted_password = decrypted_password.decode()
+                data[sel_web]["password"] = decrypted_password
+                print("Web:",sel_web, "\nUser:", data[sel_web]["user"], "\nPassword:", data[sel_web]["password"])
+
+            elif sel_web == "all":
+                clear_screen()
+                for info in data:
+                    print(info)
+
+            else:
+                print("This user does not exist\nTry again")
+        except:
+            print("Not websites have been created yet\nYou can create a website using the 'register' command")
 
 with open("key.key", "r")as file:
     key = file.read()
 cipher = Fernet(key)
-
-b = Credentials()
-# b.users_input()
-# b.add_user()
-b.read_user()
-
